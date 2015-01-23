@@ -41,7 +41,7 @@ public class PlaceMapActivity extends Activity implements OnMapReadyCallback {
     //  private String str_place_id = null;
     private Marker g_marker;
     private String types = "meal_takeaway|restaurant|meal_delivery";
-    private String radius = "500.0";
+    private String radius = "1000.0";
     private PlacesService placesService;
     private PlaceDetailsService placeDetailsService;
     private static final String API_KEY = "AIzaSyAWWG37dcyPNEQNvnP0b-S2-DZxCtKALBY";
@@ -208,8 +208,25 @@ public class PlaceMapActivity extends Activity implements OnMapReadyCallback {
 
                        // Log.e("Rating: ",""+g_placeDetails.getRating());
                         if(g_placeDetails.getArrRev()!=null) {
-                            Log.e("Rating: ",""+ g_placeDetails.getArrRev().get(0).getRating());
-                            ratingBar.setRating((float) g_placeDetails.getArrRev().get(0).getRating());
+
+                            double ratitng_sum = 0;
+                            int anzahl = 0;
+                            for(int i = 0; i < g_placeDetails.getArrRev().size(); i++)
+                            {
+                                if(g_placeDetails.getArrRev().get(i).getRating() > 0)
+                                {
+                                    ratitng_sum = ratitng_sum + g_placeDetails.getArrRev().get(i).getRating();
+                                    anzahl++;
+                                }
+                            }
+                            if (anzahl != 0)
+                            {
+                                ratingBar.setRating((float) ratitng_sum/anzahl);
+                            }
+                            else
+                            {
+                                ratingBar.setRating(0);
+                            }
                         }
                     }
                     return view;
@@ -274,15 +291,20 @@ public class PlaceMapActivity extends Activity implements OnMapReadyCallback {
                         //str_place_id = marker.getTitle();
                     }
 
-                    if (!g_marker.getTitle().equals(Str_aktuellePosition)) {
+                    if (!g_marker.getTitle().equals(Str_aktuellePosition) && g_placeDetails != null)
+                    {
                         // Starten einer neuen Activity, welches dies PlaceDetails anzeigt
                         Intent intent = new Intent(PlaceMapActivity.this, SinglePlacesActivity.class);
                         Bundle b = new Bundle();
                         // Exception einbauen fuer Keynotfound
                         String cur_place_id = g_marker_id_place_id_map.get(marker.getId());
-                        b.putString("place_id", cur_place_id);
-                        b.putString("name", marker.getTitle());
-                        //b.putString("rating",)
+                        b.putString("name", g_placeDetails.getName());
+                        b.putString("adresse", g_placeDetails.getVicinity());
+                        if(g_placeDetails.getWeekdays() != null)
+                        {
+                            b.putStringArrayList("openhours", g_placeDetails.getWeekdays());
+                        }
+                        b.putDouble("rating", g_placeDetails.getRating());
                         intent.putExtras(b);
                         startActivity(intent);
                         finish();
@@ -290,31 +312,6 @@ public class PlaceMapActivity extends Activity implements OnMapReadyCallback {
                 }
             });
             g_marker.setTitle(g_placeDetails.getName());
-           // g_tV_infoName.append(g_placeDetails.getFormatted_address());
-//            TextView textView_infoAddress = (TextView)findViewById(R.id.info_adresse);
-//            textView_infoAddress.setText(g_placeDetails.getFormatted_address());
-//            LinearLayout lin = (LinearLayout)findViewById(R.id.info_name);
-//            TextView textView_infoName = (TextView) lin.findViewById(R.id.info_name);
-//            textView_infoName.setText(g_marker.getTitle());
-           // textView_infoName.
-//            View view = getLayoutInflater().inflate(R.layout.mapinfolayout, null);
-//            TextView textView_infoName = (TextView) view.findViewById(R.id.info_name);
-//            TextView textView_infoAddress = (TextView)view.findViewById(R.id.info_adresse);
-//            Log.e("GetPlacesDetails_onPostExecute", "view: " + textView_infoName);
-//            Log.e("GetPlacesDetails_onPostExecute", "g_placesDetails: " + g_placeDetails.getFormatted_address());
-//            if(view.getVisibility() == view.INVISIBLE && g_marker.getTitle() != null)
-//            {
-//                view.setVisibility(view.VISIBLE);
-//                //textView_infoName.append(g_placeDetails.getName());
-//
-//                //g_tV_infoName.append(g_placeDetails.getFormatted_address());
-//
-//
-//            }
-//            else
-//            {
-//                Log.e("spinneer","nerv");
-//            }
         }
     }
 

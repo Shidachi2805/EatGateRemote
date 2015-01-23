@@ -14,13 +14,33 @@ import java.util.logging.Logger;
  * Created by ProMarkt on 19.01.2015.
  */
 public class PlaceDetails {
-
    private double rating;
    private String icon;
    private String place_id;
    private String name;
    private String formatted_address;
    private String vicinity;
+   private String openhours;
+
+    public ArrayList<String> getWeekdays() {
+        return weekdays;
+    }
+
+    public void setWeekdays(ArrayList<String> weekdays) {
+        this.weekdays = weekdays;
+    }
+
+    private ArrayList<String> weekdays;
+
+    public String getOpenhours() {
+        return openhours;
+    }
+
+    public void setOpenhours(String openhours) {
+        this.openhours = openhours;
+    }
+
+
 
     public ArrayList<Review> getArrRev() {
         return arrRev;
@@ -106,6 +126,24 @@ public class PlaceDetails {
             result.setName(jsonObject.getString("name"));
             result.setVicinity(jsonObject.getString("vicinity"));
             result.setPlace_id(jsonObject.getString("place_id"));
+
+            if(!jsonObject.isNull("opening_hours"))
+            {
+                ArrayList<String> list_weekdays = new ArrayList<>();
+                JSONArray openhoursArr = jsonObject.getJSONObject("opening_hours").getJSONArray("weekday_text");
+                for (int i = 0; i < openhoursArr.length(); i++) {
+                    try {
+                        list_weekdays.add(openhoursArr.getString(i));
+                    } catch (Exception e) {
+                        Log.e("JSONObj, ", "kein Review Array");
+                    }
+                }
+                result.setWeekdays(list_weekdays);
+            }
+            else {
+                Log.e("JSONObj, ", "openninghour ist null");
+            }
+
             // Extracting rating, if available
             if(!jsonObject.isNull("rating")){
                 result.setRating(jsonObject.getDouble("rating"));
