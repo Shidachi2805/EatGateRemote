@@ -1,4 +1,4 @@
-package de.eatgate.placessearch;
+package de.eatgate.placessearch.entities;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -78,7 +78,7 @@ public class Place {
         this.vicinity = vicinity;
     }
 
-    static Place jsonToPlace(JSONObject jsonObject) {
+    public static Place jsonToPlace(JSONObject jsonObject) {
         try {
             Place result = new Place();
             JSONObject geometry = (JSONObject) jsonObject.get("geometry");

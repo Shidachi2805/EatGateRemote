@@ -1,4 +1,4 @@
-package de.eatgate.placessearch;
+package de.eatgate.placessearch.services;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
@@ -13,6 +13,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.util.Log;
+
+import de.eatgate.placessearch.entities.Place;
 
 /**
  *  Create request for Places API.

@@ -1,30 +1,22 @@
-package de.eatgate.placessearch;
+package de.eatgate.placessearch.activities;
 
-import android.app.ActionBar;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.location.Criteria;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import java.util.ArrayList;
 
 
-import com.google.android.gms.maps.*;
-import com.google.android.gms.maps.model.*;
-
-
+import de.eatgate.placessearch.R;
+import de.eatgate.placessearch.entities.GPS;
+import de.eatgate.placessearch.entities.Place;
+import de.eatgate.placessearch.helpers.ListViewAdapter;
+import de.eatgate.placessearch.services.PlacesService;
 
 
 public class MainActivity extends ActionBarActivity {

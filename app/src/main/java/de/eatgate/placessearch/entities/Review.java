@@ -1,4 +1,4 @@
-package de.eatgate.placessearch;
+package de.eatgate.placessearch.entities;
 
 import org.json.JSONException;
 import org.json.JSONObject;

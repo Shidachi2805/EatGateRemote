@@ -1,4 +1,4 @@
-package de.eatgate.placessearch;
+package de.eatgate.placessearch.services;
 
 import android.util.Log;
 
@@ -11,6 +11,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import de.eatgate.placessearch.entities.PlaceDetails;
 
 /**
  * Created by ProMarkt on 19.01.2015.

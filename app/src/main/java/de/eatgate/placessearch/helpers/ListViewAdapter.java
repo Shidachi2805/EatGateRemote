@@ -1,4 +1,4 @@
-package de.eatgate.placessearch;
+package de.eatgate.placessearch.helpers;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import de.eatgate.placessearch.R;
+import de.eatgate.placessearch.entities.Place;
 
 /**
  * Created by Shi on 14.01.2015.

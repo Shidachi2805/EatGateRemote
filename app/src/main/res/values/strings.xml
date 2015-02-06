@@ -9,5 +9,10 @@
     <string name="str_adress">Adresse:</string>
     <string name="str_offnungsZeit">Öffnungszeiten:</string>
     <string name="str_rating">Rating:</string>
+    <string name="title_activity_web_service">WebServiceActivity</string>
+    <string name="Vorname">Vorname</string>
+    <string name="vorname">Vorname</string>
+    <string name="nachname">Nachname</string>
+    <string name="register">Register</string>
 
 </resources>
