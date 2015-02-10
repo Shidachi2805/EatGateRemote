@@ -45,7 +45,7 @@ public class RegisterActivity extends Activity {
             public void onClick(View v) {
                 Toast.makeText(getBaseContext(), "Send ... ", Toast.LENGTH_LONG).show();
                 // call AsynTask to perform network operation on separate thread
-                new MakeRegister().execute("http://localhost:22700/api/WWWBewertungPortal");
+                new MakeRegister().execute("http://192.168.70.22/api/WWWBewertungPortal");
             }
         });
 
