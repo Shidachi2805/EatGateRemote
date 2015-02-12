@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="gen_anzeige">
+        <item>weiblich</item>
+        <item>männlich</item>
+    </array>
+    <array name="gen_werte">
+        <item>w</item>
+        <item>m</item>
+    </array>
+</resources>

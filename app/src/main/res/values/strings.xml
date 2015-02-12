@@ -14,5 +14,7 @@
     <string name="vorname">Vorname</string>
     <string name="nachname">Nachname</string>
     <string name="register">Register</string>
+    <string name="nickname">Benutzername</string>
+    <string name="promptPW">Passwort</string>
 
 </resources>

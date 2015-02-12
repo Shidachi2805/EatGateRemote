@@ -1,13 +1,18 @@
 package de.eatgate.placessearch.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,13 +30,16 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 
 import de.eatgate.placessearch.R;
+import de.eatgate.placessearch.helpers.ListViewAdapter;
 
 
 public class RegisterActivity extends Activity {
     private Button rgBtn;
 
+    // private ArrayList<String> selectListe = new ArrayList<String>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,9 +53,42 @@ public class RegisterActivity extends Activity {
             public void onClick(View v) {
                 Toast.makeText(getBaseContext(), "Send ... ", Toast.LENGTH_LONG).show();
                 // call AsynTask to perform network operation on separate thread
-                new MakeRegister().execute("http://192.168.70.22/api/WWWBewertungPortal");
+                new MakeRegister().execute("http://192.168.70.22:80/EatGate/api/WWWBewertungPortal");
             }
         });
+
+        final Spinner spinner =
+                (Spinner) findViewById(R.id.sp_gender);
+        final int pos = spinner.getSelectedItemPosition();
+        final String[] genderStrArr =
+                getResources().getStringArray(R.array.gen_werte);
+        final String genderStr = genderStrArr[pos];
+
+
+        // selectListe.add("female");
+        // selectListe.add("male");
+        //  ListAdapter listAdapter = new ArrayAdapter(this, android.R.layout.simple_expandable_list_item_1, selectListe);
+        //  ListView selectView = (ListView) findViewById(R.id.listViewSelect);
+        //  selectView.setAdapter(listAdapter);
+    }
+
+    public void sendeDaten() {
+        final ProgressDialog verlauf = ProgressDialog.show(
+                this,
+                "Bitte warten...",
+                "Daten werden gesendet",
+                true, // zeitlich unbeschränkt
+                false); // nicht unterbrechbar
+
+        new Thread() {
+            public void run() {
+                sendeDatenAnServer();
+                verlauf.dismiss(); // dialog schließen
+            }
+        }.start();
+    }
+
+    public void sendeDatenAnServer() {
 
     }
 
@@ -73,44 +114,38 @@ public class RegisterActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
     public static String POSTRegister (String url, JSONObject personJSON){
         InputStream inputStream = null;
         String result = "";
         try {
-
-            // 1. create HttpClient
+            Log.i("Create HttpClient: ", "wait ...");
+            // create HttpClient
             HttpClient httpclient = new DefaultHttpClient();
 
-            // 2. make POST request to the given URL
+            // make POST request to the given URL
             HttpPost httpPost = new HttpPost(url);
 
             String json = "";
-            // 4. convert JSONObject to JSON to String
+            // convert JSONObject to JSON to String
             json = personJSON.toString();
 
-            // ** Alternative way to convert Person object to JSON string usin Jackson Lib
-            // ObjectMapper mapper = new ObjectMapper();
-            // json = mapper.writeValueAsString(person);
-
-            // 5. set json to StringEntity
+            // set json to StringEntity
             StringEntity se = new StringEntity(json);
 
-            // 6. set httpPost Entity
+            // set httpPost Entity
             httpPost.setEntity(se);
 
-            // 7. Set some headers to inform server about the type of the content
+            // Set some headers to inform server about the type of the content
             httpPost.setHeader("Accept", "application/json");
             httpPost.setHeader("Content-type", "application/json");
 
-            // 8. Execute POST request to the given URL
+            // Execute POST request to the given URL
             HttpResponse httpResponse = httpclient.execute(httpPost);
 
-            // 9. receive response as inputStream
+            // receive response as inputStream
             inputStream = httpResponse.getEntity().getContent();
 
-            // 10. convert inputstream to string
+            // convert inputstream to string
             if(inputStream != null)
                 result = convertInputStreamToString(inputStream);
             else
@@ -120,7 +155,7 @@ public class RegisterActivity extends Activity {
             Log.d("InputStream", e.getLocalizedMessage());
         }
 
-            Log.e("Asny",result);
+        Log.i("Show result: ", result);
 
         // 11. return result
         return result;
@@ -151,7 +186,7 @@ public class RegisterActivity extends Activity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-
+            Log.e("Ausfgeführt", "ja");
         }
 
 
@@ -164,7 +199,7 @@ public class RegisterActivity extends Activity {
             JSONObject personJSON = new JSONObject();
             try {
                 personJSON.put("Vorname", vornameView.getText());
-                personJSON.put("Nachname", nachnameView.getText());
+                personJSON.put("Name", nachnameView.getText());
                 personJSON.put("Nickname", "e");
                 personJSON.put("Email", emailView.getText());
                 personJSON.put("Passwort", "123");

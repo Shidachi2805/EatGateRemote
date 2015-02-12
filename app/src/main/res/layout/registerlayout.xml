@@ -28,13 +28,36 @@
                 android:singleLine="true"
                 android:editable="false" />
 
+            <AutoCompleteTextView
+                android:id="@+id/nickname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/nickname"
+                android:inputType="text"
+                android:maxLines="1"
+                android:singleLine="true"
+                android:editable="false" />
+
             <AutoCompleteTextView android:id="@+id/email" android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:hint="@string/prompt_email"
                 android:inputType="textEmailAddress" android:maxLines="1"
                 android:singleLine="true" />
 
+
+            <Spinner
+                android:id="@+id/sp_gender"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawSelectorOnTop="true"
+                android:entries="@array/gen_anzeige"
+                android:entryValues="@array/gen_werte"
+                android:dropDownSelector="#ff646464"
+                android:spinnerMode="dialog"
+                android:transitionGroup="false" />
+
             <EditText android:id="@+id/password" android:layout_width="match_parent"
-                android:layout_height="wrap_content" android:hint="@string/prompt_password"
+                android:layout_height="wrap_content"
+                android:hint="@string/promptPW"
                 android:imeActionId="@+id/login"
                 android:imeActionLabel="@string/action_sign_in_short"
                 android:imeOptions="actionUnspecified" android:inputType="textPassword"
